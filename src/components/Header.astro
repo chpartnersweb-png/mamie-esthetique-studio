@@ -1,0 +1,16 @@
+---
+import Logo from './Logo.astro';
+import Arrow from './Arrow.astro';
+import { salon } from '../data/salon';
+---
+<header class="site-header">
+  <Logo />
+  <nav class="desktop-nav" aria-label="メインナビゲーション"><a href="#about">サロンについて</a><a href="#menu">メニュー</a><a href="#voices">お客様の声</a><a href="#access">アクセス</a></nav>
+  <a class="header-contact" href={salon.links.contact}>ご予約・お問い合わせ <Arrow /></a>
+  <button class="menu-toggle" type="button" aria-label="メニューを開く" aria-expanded="false" aria-controls="mobile-navigation"><span></span><span></span></button>
+</header>
+<dialog id="mobile-navigation" class="mobile-menu" aria-label="メインメニュー" data-lenis-prevent>
+  <div class="mobile-menu-top"><span>メニュー</span><button class="menu-close" type="button" aria-label="メニューを閉じる">閉じる <span aria-hidden="true">×</span></button></div>
+  <nav aria-label="スマートフォンのナビゲーション"><a href="#about">サロンについて <Arrow /></a><a href="#care">フェイシャルへのこだわり <Arrow /></a><a href="#menu">メニューのご案内 <Arrow /></a><a href="#voices">お客様の声 <Arrow /></a><a href={salon.links.shopping}>ショッピング <Arrow /></a><a href="#access">アクセス <Arrow /></a><a href={salon.links.contact}>ご予約・お問い合わせ <Arrow /></a></nav>
+  <p>完全予約制・女性専用<br />乃木坂駅3番出口から徒歩1分</p>
+</dialog>

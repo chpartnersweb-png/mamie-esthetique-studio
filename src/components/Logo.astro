@@ -1,0 +1,5 @@
+---
+interface Props { footer?: boolean; }
+const { footer = false } = Astro.props;
+---
+<a href="#top" class:list={['logo', { 'logo-footer': footer }]} aria-label="M'amie esthetique studio トップへ"><img src="/images/brand/mamie-logo-original.jpg" width="426" height="86" alt="M'amie esthetique studio マミーエステティックスタジオ" loading={footer ? 'lazy' : 'eager'} /></a>
