@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mamie-esthetique-studio.pages.dev/sitemap.xml

@@ -24,5 +24,5 @@ for (const prohibited of ['画像はイメージです', 'Image is for illustrat
   assert.ok(!html.includes(prohibited), `Unwanted placeholder: ${prohibited}`);
 }
 assert.ok(!/<form\b/i.test(html), 'Contact should link to existing HP');
-assert.ok(!/https?:\/\/[^"\s]+\.(?:jpg|png|webp)(?:[?"\s])/i.test(html), 'Images must be served locally');
+assert.ok(localImages.every(src => src.startsWith('/')), 'Content images must be served locally; absolute social metadata URLs are allowed');
 console.log(`Verified: Japanese metadata, one H1, anchors, ${localImages.length} local image instances, existing HP destinations, 3 original review excerpts, no placeholder or new contact form.`);

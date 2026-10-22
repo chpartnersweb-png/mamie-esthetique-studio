@@ -4,11 +4,77 @@ import Logo from '../components/Logo.astro';
 import Arrow from '../components/Arrow.astro';
 import { salon, menus, reviews, questions } from '../data/salon';
 import '../styles/brand.css';
-const description = '乃木坂駅から徒歩1分。M\'amie esthetique studioは、完全予約制・女性専用、1席のフェイシャルエステサロンです。サロンのこだわり、メニュー、お客様の声、アクセスをご紹介します。';
+const title = "乃木坂のフェイシャルエステ｜M'amie esthetique studio（マミー）";
+const description = '乃木坂駅3番出口から徒歩1分、六本木駅から徒歩5分。M\'amie esthetique studio（マミーエステティックスタジオ）は、東京都港区赤坂の完全予約制・女性専用フェイシャルエステサロンです。プラセンタ配合化粧品を使ったケア、メニュー、お客様の声、アクセスをご案内します。';
+const canonicalUrl = new URL('/', Astro.site).href;
+const socialImageUrl = new URL('/images/og/mamie-esthetique-studio.jpg', Astro.site).href;
+const logoUrl = new URL('/images/brand/mamie-logo-original.jpg', Astro.site).href;
+const businessId = `${canonicalUrl}#salon`;
+const websiteId = `${canonicalUrl}#website`;
+const webpageId = `${canonicalUrl}#webpage`;
+const imageId = `${canonicalUrl}#primaryimage`;
 const structuredData = {
-  '@context': 'https://schema.org', '@type': 'BeautySalon', name: salon.name, telephone: salon.phone,
-  address: { '@type': 'PostalAddress', streetAddress: '赤坂9-6-29 パシフィック乃木坂507', addressLocality: '港区', addressRegion: '東京都', addressCountry: 'JP', postalCode: '107-0052' },
-  description: '11:00〜19:00／不定休／完全予約制・女性専用', sameAs: [salon.links.facebook],
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': websiteId,
+      url: canonicalUrl,
+      name: salon.name,
+      alternateName: 'マミーエステティックスタジオ',
+      inLanguage: 'ja-JP',
+      publisher: { '@id': businessId },
+    },
+    {
+      '@type': 'WebPage',
+      '@id': webpageId,
+      url: canonicalUrl,
+      name: title,
+      description,
+      inLanguage: 'ja-JP',
+      isPartOf: { '@id': websiteId },
+      mainEntity: { '@id': businessId },
+      primaryImageOfPage: { '@id': imageId },
+    },
+    {
+      '@type': 'ImageObject',
+      '@id': imageId,
+      url: socialImageUrl,
+      contentUrl: socialImageUrl,
+      width: 1200,
+      height: 630,
+      caption: 'M\'amie esthetique studioのフェイシャルケア',
+    },
+    {
+      '@type': 'BeautySalon',
+      '@id': businessId,
+      name: salon.name,
+      alternateName: 'マミーエステティックスタジオ',
+      url: canonicalUrl,
+      description,
+      telephone: '+81-3-6906-5411',
+      image: { '@id': imageId },
+      logo: { '@type': 'ImageObject', url: logoUrl, width: 426, height: 86 },
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: '赤坂9-6-29 パシフィック乃木坂507',
+        addressLocality: '港区',
+        addressRegion: '東京都',
+        postalCode: '107-0052',
+        addressCountry: 'JP',
+      },
+      openingHoursSpecification: {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+        opens: '11:00',
+        closes: '19:00',
+        description: '平日・土日祝とも11:00〜19:00。不定休・完全予約制・女性専用。',
+      },
+      hasMap: salon.links.map,
+      sameAs: ['https://mamie-es.com/', salon.links.facebook],
+      mainEntityOfPage: { '@id': webpageId },
+    },
+  ],
 };
 ---
 <!doctype html>
@@ -18,15 +84,29 @@ const structuredData = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#f8f7f3" />
     <meta name="description" content={description} />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="sitemap" type="application/xml" href={new URL('/sitemap.xml', Astro.site).href} />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ja_JP" />
-    <meta property="og:title" content="M'amie esthetique studio｜乃木坂のフェイシャルサロン" />
+    <meta property="og:site_name" content={salon.name} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content="/images/generated/hero.webp" />
+    <meta property="og:image" content={socialImageUrl} />
+    <meta property="og:image:secure_url" content={socialImageUrl} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="M'amie esthetique studioのフェイシャルケア" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageUrl} />
+    <meta name="twitter:image:alt" content="M'amie esthetique studioのフェイシャルケア" />
     <link rel="icon" type="image/svg+xml" href="/mamie-icon.svg" />
     <link rel="preload" as="image" href="/images/generated/hero.webp" imagesrcset="/images/generated/hero-mobile.webp 800w, /images/generated/hero.webp 1536w" imagesizes="(max-width: 760px) 100vw, 60vw" />
-    <title>M'amie esthetique studio｜乃木坂のフェイシャルサロン</title>
+    <title>{title}</title>
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   </head>
   <body>
@@ -49,7 +129,7 @@ const structuredData = {
       <section id="about" class="about section-space" aria-labelledby="about-title">
         <div class="container about-layout">
           <div class="section-caption reveal"><span class="caption-line"></span>サロンについて</div>
-          <div class="about-copy reveal"><h2 id="about-title">ひと席だから、<br />大切にできる時間がある。</h2><p>乃木坂の街の一角にある、<br class="desktop-break" />小さなフェイシャルサロン。</p><p>肌のことを話したり、そっと目を閉じたり。<br class="desktop-break" />ここでは、日々の忙しさを少しだけ手放して。</p><p>一人ひとりの肌に向き合うお手入れと、<br class="desktop-break" />ほっとできる時間をお届けします。</p></div>
+          <div class="about-copy reveal"><h2 id="about-title">ひと席だから、<br />大切にできる時間がある。</h2><p>M'amie esthetique studio<br />（マミーエステティックスタジオ）は、<br class="desktop-break" />乃木坂駅から徒歩1分。<br />東京都港区赤坂にある、<br class="desktop-break" />小さなフェイシャルエステサロンです。</p><p>肌のことを話したり、そっと目を閉じたり。<br class="desktop-break" />ここでは、日々の忙しさを少しだけ手放して。</p><p>一人ひとりの肌に向き合うお手入れと、<br class="desktop-break" />ほっとできる時間をお届けします。</p></div>
           <div class="about-aside reveal"><div class="salon-photo image-frame"><img src="/images/original/salon.webp" width="550" height="413" alt="M'amie esthetique studioの落ち着いたサロン内" loading="lazy" /></div><p>完全予約制・女性専用。<br />ひと席の、プライベートなサロンです。</p></div>
           <svg class="about-curve" viewBox="0 0 600 340" fill="none" aria-hidden="true"><path d="M2 310C130 320 80 30 270 40S440 270 595 4" stroke="currentColor" stroke-width=".8" /></svg>
         </div>
